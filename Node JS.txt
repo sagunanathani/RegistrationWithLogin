@@ -1,0 +1,192 @@
+/////////////////////////////////////////////////// step by step make a API 
+//npm install, npm init -y, npx express-generator -e, npm i nodemon, npm i mongoose, npm i bcrypt, npm i jsonwebtoken
+
+package.json - project details rakhe
+package.lock.json - package ni all details rakhe
+download:
+npm i 
+npm init -y   - init mean instilize - package.json bane
+npm i mongoose 
+npm i mongodb
+npm i nodejs
+npm i express
+npm i nodemon
+
+{
+  "name": "JobPostingAPI",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "sagu@kathiriya",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongodb": "^4.8.1",
+    "mongoose": "^6.5.1",
+    "nodejs": "0.0.0",
+    "nodemon": "^2.0.19"
+  }
+}
+
+example of download and setup the start nodemon app.js / server.js
+
+run - nodemon app.js
+open postman for data get and post - folder name automatically nai ave banavu padse- make a folder and file then post data - body-JSON ma - as a same model wise and send then check with get method then 
+open mongo DB app - folder name automatically avse - connect -  mongodb://localhost:27017(game ae hoy sake) - for example jobPosting - ae apel hase code ma ae avi jase - then refresh file show data
+
+app.js - 
+//connection to PORT
+app.listen(8000, () => {
+  console.log(`Listening on port ${8000}`);
+});
+
+const todo_details = require('./Routes/todo_routes'); // routes jema mukel hoy ae folder
+app.use('/', todo_details);
+
+const mongoUrl = "mongodb://127.0.0.1:27017/login"; // mongodb ma folder name write karva
+console.log("connection successfully");
+
+post - data send karva je je filed moklvi hoy ae
+get - data leva check karva ketla che je mokla hoy ae
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+download:
+mongodb compass(data show) & postman(api check karva)
+
+mongoDB aek data base che 
+mongoose - it's liebrary uses mongoose thay 
+get -  find - model nu name change
+post - create - model nu name change
+patch -  update - by id - update karva data ne json ma write kari ne karva no hoy then check it on mongoodb
+delete - delete -  by id - id muki ne delete
+
+middleware - check karse je pan api ma condition apply kari hoy ae then api call karse true hase to call thase either nai thay - in a api
+
+diff between replace and update:
+replace: je change karu hoy tya j change kari dese // The REPLACE policy will create the record or replace it entirely if a previous version of the record already existed. // This will delete potential already existing bins for this record.
+update : The UPDATE policy will create the record or update the record if it already exists.
+update data full rerender karse and update karse akho data mean akho array like replace jaya change karvu hoy tya j kari dese
+
+diff remove and delete:
+// Remove and Delete are defined quite similarly, but the main difference between them is that delete means erase (i.e. rendered nonexistent or nonrecoverable), while    remove denotes take away and set aside (but kept in existence).
+remove : only remove kare but background ma data re 
+delete : data delete thay jase parment
+
+SchemaTypes:
+String -   name:{type: String}
+Number - age: 'Number'
+Dates - dueDate: Date
+string 'Buffer'- binData: 'Buffer'
+Mixed - any: Schema.Types.Mixed (you can change the value to anything else you like)
+ObjectId - An ObjectId is a special type typically used for unique identifiers. - driver: mongoose.ObjectId
+	 When you convert an ObjectId to a string using toString() - car.driver instanceof mongoose.Types.ObjectId; 
+					// truecar.driver.toString(); // Something like "5e1a0651741b255ddda996c4"
+Boolean - Mongoose converts to true or false using the convertToTrue and convertToFalse properties - b: Boolean 
+Arrays -  any: Array //any: []  //any: [{}]
+complusory - required: true 
+
+Connections:
+mongoose.connect('mongodb://localhost:27017/myapp');
+Operation Buffering: - 
+Error Handling - Error on initial connection. If initial connection fails, Mongoose will emit an 'error' event and the promise mongoose.connect() returns will reject. 	However, Mongoose will not automatically try to reconnect.
+	Error after initial connection was established. Mongoose will attempt to reconnect, and it will emit an 'error' event.
+	// you should use .catch() or try/catch with async/await.
+Options - const options = {
+  autoIndex: false, // Don't build indexes
+  maxPoolSize: 10, // Maintain up to 10 socket connections
+  serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+  socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
+  family: 4 // Use IPv4, skip trying IPv6
+};
+mongoose.connect(uri, options);
+// The serverSelectionTimeoutMS option also handles how long mongoose.connect() will retry initial connection before erroring out. mongoose.connect() will retry for 30 seconds by default (default serverSelectionTimeoutMS) before erroring out. To get faster feedback on failed operations, you can reduce serverSelectionTimeoutMS to 5000 as shown below.
+Callback - The connect() function also accepts a callback parameter and returns a promise.
+
+Models:
+When you call mongoose.model() on a schema, Mongoose compiles a model for you.
+const schema = new mongoose.Schema({ name: 'string', size: 'string' });
+const Tank = mongoose.model('Tank', schema); // mongodb ma name ave ae , schema name
+Querying -finding documents is easy with Mongoose, which supports the rich query syntax of MongoDB. Documents can be retrieved using a model's find, findById, findOne, 	or where static methods.
+Deleting - Models have static deleteOne() and deleteMany() functions for removing all documents matching the given filter.
+Updating - Each model has its own update method for modifying documents in the database without returning them to your application. See the API docs for more detail.
+
+Queries:
+get method mate -  find
+let doc = await Character.findOne({ name: 'Jean-Luc Picard' });
+Model.deleteMany()- Works like remove, except it deletes every document that matches filter in the collection, 
+Model.deleteOne() -  je value api hoy ae ael delete kare
+Model.find() - data find karva(All)
+Model.findById() - find through ID
+Model.findByIdAndDelete() - find through ID & delete
+Model.findByIdAndRemove() - find through ID & remove
+Model.findByIdAndUpdate()
+Model.findOne() -  game te aek value fine krse je apvi ae
+Model.findOneAndDelete() - je value apvi ae find and delete
+Model.findOneAndRemove() - je value apvi ae find and remove
+Model.findOneAndReplace() - je value apvi ae find and replace - key replace j kare je apvi ae
+Model.findOneAndUpdate() - je value apvi ae find and update data - aa key update karse - one extra add thay jay key diffrent name thi
+Model.replaceOne() - koi id api ne data replace krva
+Model.updateMany() - update all documents that match filter 
+Model.updateOne() - MongoDB will update only the first document that matches filter regardless of the value of the multi option.
+
+Validation:
+min: [6, 'Too few eggs'],
+max: 12
+min: [6, 'Must be at least 6, got {VALUE}'],
+message: 'Email validation failed'
+numWheels: { type: Number, max: 18 }
+
+Comparison Operators:
+MongoDB comparison operators can be used to compare values in a document. The following table contains the common comparison operators.
+Operator	Description
+$eq	Matches values that are equal to the given value.
+$gt	Matches if values are greater than the given value.
+$lt	Matches if values are less than the given value.
+$gte	Matches if values are greater or equal to the given value.
+$lte	Matches if values are less or equal to the given value.
+$in	Matches any of the values in an array.
+$ne	Matches values that are not equal to the given value.
+$nin	Matches none of the values specified in an array.
+
+Logical Operators:
+MongoDB logical operators can be used to filter data based on given conditions. These operators provide a way to combine multiple conditions. Each operator equates the given condition to a true or false value.
+Here are the MongoDB logical operators:
+Operator	Description
+$and	Joins two or more queries with a logical AND and returns the documents that match all the conditions.
+$or	Join two or more queries with a logical OR and return the documents that match either query.
+$nor	The opposite of the OR operator. The logical NOR operator will join two or more queries and return documents that do not match the given query conditions.
+$not	Returns the documents that do not match the given query expression.
+
+Aggregate :
+
+
+
+Next.js:
+What is Next.js?
+Next.js is a React framework that gives you building blocks to create web applications.
+npx create-next-app
+cd next-app
+npm run dev
+click on 3000 and // edit pages/index.js
+
+routes alag thi karvu no pade automati folder bane aema thi j route tahy page
+
+getServerSideProps: getServerSideProps only runs on server-side and never runs on the browser. If a page uses getServerSideProps
+// only if you need to render a page whose data must be fetched at request time. 
+
+$group: The _id field is mandatory; an _id value can be specified as a null to calculate accumulated values for all the input documents as a whole.
+The rest of the fields eligible to be computed are optional and computed using the <accumulator> operators.
+The _id and the <accumulator> expressions can accept any valid expression. // AKHO ARRAY RETURN KARSE
+
+{ $project: { <specifications> } } :- 
+Specification	Description
+<field>: <1 or true>	Specify the inclusion of a field.
+_id: <0 or false>	Specify the suppression of the _id field.
+<field>: <expression>	Add a new field or reset the value of an existing field.
+// JE APVI AE J RETURN KARE
+
+
